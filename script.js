@@ -117,9 +117,11 @@ async function showDashboard() {
 }
 
 async function loadUsers() {
-    addLog('Consultando tabela SQLite...');
+    addLog('Consultando tabela SQLite (Protegida por Token)...');
     try {
-        const res = await fetch(`${API_URL}/users`);
+        const res = await fetch(`${API_URL}/users`, {
+            headers: { 'Authorization': `Bearer ${authToken}` }
+        });
         if (res.ok) {
             const users = await res.json();
             userListEl.innerHTML = users.map(u => `
@@ -129,6 +131,9 @@ async function loadUsers() {
                 </li>
             `).join('');
             addLog(`${users.length} registros encontrados.`);
+        } else if (res.status === 401) {
+            addLog('⚠️ SESSÃO EXPIRADA OU TOKEN INVÁLIDO.');
+            logoutBtn.click();
         }
     } catch (err) {
         addLog('Falha ao acessar banco.');

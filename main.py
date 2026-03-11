@@ -2,9 +2,11 @@ from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
-from fastapi.security import OAuth2PasswordRequestForm
 from typing import List
+from jose import JWTError, jwt
+from config import settings
 
 from database import SessionLocal, engine, Base
 from models import User
@@ -35,6 +37,27 @@ def get_db():
 
 # Montar arquivos estáticos (CSS, JS, Imagens)
 app.mount("/static", StaticFiles(directory="."), name="static")
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
+
+def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Poderia você ser um impostor? Acesso negado.",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+    try:
+        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
+        username: str = payload.get("sub")
+        if username is None:
+            raise credentials_exception
+    except JWTError:
+        raise credentials_exception
+    
+    user = db.query(User).filter(User.username == username).first()
+    if user is None:
+        raise credentials_exception
+    return user
 
 @app.get("/")
 def home():
@@ -71,7 +94,7 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depend
     return {"access_token": access_token, "token_type": "bearer"}
 
 @app.get("/users", response_model=List[UserOut])
-def list_users(db: Session = Depends(get_db)):
+def list_users(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     return db.query(User).all()
 
 # Endpoint para manter a magia assíncrona da aula
