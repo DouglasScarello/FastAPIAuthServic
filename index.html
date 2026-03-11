@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FastAPI Auth Service | Showcase</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Inter:wght@300;400;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background-overlay"></div>
+    
+    <main class="container">
+        <header class="main-header">
+            <h1 class="glow-text">FastAPI Auth Service</h1>
+            <p class="subtitle">Showcase dos 4 Pilares da Engenharia Backend</p>
+        </header>
+
+        <!-- Seção de Login/Registro -->
+        <section id="auth-section" class="glass-container fade-in">
+            <div class="tabs">
+                <button id="tab-login" class="tab-btn active">Acessar</button>
+                <button id="tab-register" class="tab-btn">Novo Registro</button>
+            </div>
+            <form id="auth-form" class="arcana-form">
+                <div class="input-group">
+                    <label for="username">Habitante</label>
+                    <input type="text" id="username" placeholder="Seu nome..." required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Chave</label>
+                    <input type="password" id="password" placeholder="Sua senha..." required>
+                </div>
+                <button type="submit" id="submit-btn" class="magical-btn">Invocar Portal</button>
+            </form>
+            <p id="message" class="status-message"></p>
+        </section>
+
+        <!-- Dashboard Profissional: Os 4 Pilares -->
+        <section id="dashboard-section" class="hidden fade-in">
+            <div class="dashboard-grid">
+                
+                <!-- Pilar 1: FastAPI (Logs) -->
+                <article class="pillar-card p1">
+                    <div class="card-header">
+                        <span class="icon">⚡</span>
+                        <h3>Pilar 1: FastAPI</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="desc">A torre que processa milhares de sussurros simultâneos.</p>
+                        <div class="log-container" id="api-logs">
+                            <code class="log-entry">Esperando comando...</code>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Pilar 2: Autenticação (JWT) -->
+                <article class="pillar-card p2">
+                    <div class="card-header">
+                        <span class="icon">🔑</span>
+                        <h3>Pilar 2: Autenticação</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="desc">O selo inquebrável (JWT) que prova sua identidade.</p>
+                        <div class="token-viewer">
+                            <span class="label">Token Ativo:</span>
+                            <div class="token-box" id="jwt-display">Nenhum selo ativo</div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Pilar 3: Banco de Dados (SQLite) -->
+                <article class="pillar-card p3">
+                    <div class="card-header">
+                        <span class="icon">🗄️</span>
+                        <h3>Pilar 3: Banco de Dados</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="desc">O cofre eterno onde os nomes são gravados (SQLite).</p>
+                        <div class="user-list-widget">
+                            <ul id="user-list" class="arcana-list"></ul>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Pilar 4: Deploy (Docker) -->
+                <article class="pillar-card p4">
+                    <div class="card-header">
+                        <span class="icon">📦</span>
+                        <h3>Pilar 4: Deploy</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="desc">A torre encapsulada pronta para qualquer reino.</p>
+                        <div class="docker-info">
+                            <pre><code>FROM python:3.11-slim
+WORKDIR /app
+CMD ["uvicorn", "main:app"]</code></pre>
+                        </div>
+                        <span class="status-badge">Container Ready</span>
+                    </div>
+                </article>
+
+            </div>
+            <div class="dash-footer">
+                <button id="logout-btn" class="secondary-btn">Partir da Torre</button>
+            </div>
+        </section>
+
+        <footer class="main-footer">
+            <p>Implementação Completa: FastAPI • SQLAlchemy • JWT • Docker</p>
+        </footer>
+    </main>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
