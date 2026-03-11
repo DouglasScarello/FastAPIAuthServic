@@ -1,39 +1,40 @@
 # FastAPI Auth Service
 
-A robust authentication service infrastructure built with FastAPI, SQLAlchemy, and SQLite. This project demonstrates a production-ready backend architecture, focusing on security, scalability, and modern deployment practices.
+A robust authentication service infrastructure built with FastAPI, SQLAlchemy, and SQLite. This project demonstrates a production-grade backend architecture, focusing on security, scalability, and modern software engineering practices.
 
 ---
 
 ## 🏛️ Architectural Pillars
 
 ### 1. ⚡ Core API Engine: FastAPI
-- **High Performance**: Built on top of Starlette and Pydantic for asynchronous request handling.
-- **Type Safety**: Leveraging Python type hints for automatic validation and documentation.
-- **Interactive API Docs**: Integrated Swagger UI and ReDoc for comprehensive endpoint testing.
+- **High Performance**: Asynchronous request handling with `async/await`.
+- **Type Safety**: Data validation and serialization via Pydantic V2.
+- **Interactive Documentation**: Automated Swagger UI (`/docs`) and ReDoc.
 
 ### 2. 🔑 Identity & Access Management: JWT
-- **Secure Hashing**: Password protection using the `bcrypt` algorithm.
-- **Token-Based Auth**: Standard implementation of OAuth2 with JSON Web Tokens (JWT).
-- **Stateless Authentication**: Efficient access management without server-side session overhead.
+- **Secure Hashing**: Password protection using `bcrypt` (v4.0.1).
+- **Token-Based Auth**: OAuth2 implementation with JSON Web Tokens (JWT).
+- **Protected Routes**: Middleware-level dependency injection for secure endpoint access.
 
-### 3. 🗄️ Relational Persistence: SQLAlchemy & SQLite
-- **Permanent Storage**: Reliable data management using SQLite as a relational database.
-- **Object-Relational Mapping (ORM)**: Clean, modular database interaction via SQLAlchemy.
-- **Scalable Design**: Data models designed for easy migration to PostgreSQL or MySQL.
+### 3. 🗄️ Relational Persistence & Migrations
+- **ORM**: Modular database interaction via SQLAlchemy.
+- **Migrations**: Database schema versioning managed by **Alembic**.
+- **Data Integrity**: Centralized model definitions and type-safe schemas.
 
-### 4. 📦 Deployment & Scalability: Docker
-- **Containerization**: Standard `Dockerfile` for environment parity and simplified scaling.
-- **Production Ready**: Optimized configuration for cloud-native deployments and CI/CD pipelines.
+### 4. ⚙️ Configuration & Quality
+- **Env Management**: 12-Factor App compliance using `pydantic-settings` and `.env`.
+- **Automated Testing**: Comprehensive test suite using **Pytest** and **Httpx**.
+- **Containerization**: Optimized `Dockerfile` for environment parity and deployment.
 
 ---
 
 ## 📊 Technical Showcase Dashboard
 
-The project includes a comprehensive administration dashboard to demonstrate the integration of all services:
-- **API Traffic Logs**: Real-time monitoring of service interactions and system events.
-- **Authentication Viewer**: Dynamic visualization of JWT generation and validation status.
-- **Database Explorer**: Live view of persisted records within the SQLite architecture.
-- **Infrastructure Overview**: Direct access to deployment configurations and container status.
+The project features an integrated administration dashboard:
+- **API Traffic Logs**: Real-time monitoring of backend interactions.
+- **Authentication Viewer**: Dynamic visualization of JWT status.
+- **Database Explorer**: Live view of persisted records.
+- **Infrastructure Overview**: Container-ready status and configuration access.
 
 ---
 
@@ -41,7 +42,7 @@ The project includes a comprehensive administration dashboard to demonstrate the
 
 ### Prerequisites
 - Python 3.11+
-- Container runtime (optional, e.g., Docker)
+- Docker (optional)
 
 ### Local Environment Setup
 1. **Clone the repository**:
@@ -54,7 +55,6 @@ The project includes a comprehensive administration dashboard to demonstrate the
    ```bash
    python -m venv venv
    source venv/bin/activate  # Linux/macOS
-   # venv\Scripts\activate   # Windows
    ```
 
 3. **Install Dependencies**:
@@ -62,14 +62,20 @@ The project includes a comprehensive administration dashboard to demonstrate the
    pip install -r requirements.txt
    ```
 
-4. **Launch the Service**:
+4. **Setup Database (Migrations)**:
+   ```bash
+   alembic upgrade head
+   ```
+
+5. **Launch the Service**:
    ```bash
    uvicorn main:app --reload
    ```
 
-5. **Access the Service**:
-   - Application URL: [http://127.0.0.1:8000](http://127.0.0.1:8000)
-   - API Documentation: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+### Running Tests
+```bash
+pytest
+```
 
 ### Deployment via Docker
 ```bash
@@ -82,14 +88,16 @@ docker run -p 8000:8000 fastapi-auth-service
 ## 📂 Project Structure
 
 ```text
-├── auth.py          # Identity Management & JWT Logic
-├── database.py      # SQLAlchemy Configuration & Engine
-├── models.py        # Database Schema Definitions
-├── schemas.py       # Pydantic Data Validation Models
-├── main.py          # API Gateway & Route Definitions
-├── index.html       # Client Interface
-├── style.css        # Professional UI Theming
-└── script.js        # Frontend Orchestration
+├── alembic/         # Database migration history
+├── tests/           # Automated test suite (Pytest)
+├── auth.py          # JWT & Security logic
+├── config.py        # Centralized settings (Pydantic Settings)
+├── database.py      # SQLAlchemy engine configuration
+├── models.py        # SQLAlchemy database models
+├── schemas.py       # Pydantic validation schemas
+├── main.py          # API Gateway and routes
+├── .env             # Environment variables (template)
+└── index.html       # Client interface
 ```
 
-**Developed by Douglas with a focus on high-quality backend engineering and security.**
+**Designed for high-performance authentication and scalable backend engineering.** 🚀
